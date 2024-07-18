@@ -1,0 +1,213 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Scripts/css/Account.css">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="finger-scanner text-center">
+            <img src="~/Scripts/img/logoexample.png" alt="Finger Scanner" width="70">
+        </div>
+        <div class="registration-form" id="registrationFormContainer">
+            <h2 class="text-center">Admin Registration</h2>
+            <form id="registrationForm">
+                <div class="form-row justify-content-center profile-image-container">
+                    <div class="col-md-6 text-center mb-2">
+                        <div class="form-group d-flex flex-column align-items-center">
+                            <label for="profileImage" class="align-self-start">Profile Image</label>
+                            <input type="file" class="form-control-file" id="profileImage" >
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 mb-2">
+                        <div class="form-group">
+                            <label for="lastName">Last name</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="Last name" >
+                            <span class="error-message" id="lastNameError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">First name</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="First name" >
+                            <span class="error-message" id="firstNameError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="middleName">Middle name</label>
+                            <input type="text" class="form-control" id="middleName" placeholder="Middle name" >
+                            <span class="error-message" id="middleNameError"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <div class="form-group">
+                            <label for="contactNumber">Contact Number</label>
+                            <input type="text" class="form-control" id="contactNumber" placeholder="09*********" required>
+                            <span class="error-message" id="contactNumberError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" class="form-control" id="email" placeholder="email@gmail.com" required>
+                            <span class="error-message" id="emailError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter password" required>
+                            <span class="error-message" id="passwordError"></span>
+                        </div>
+                        <div class="d-flex justify-content-end mb-2">
+                            <button type="submit" class="btn btn-primary">Create Account</button>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center">Already have an account? <a href="#" id="loginLink">Login</a></p>
+            </form>
+            <div class="success-message" id="successMessage" style="display:none;">
+                <ion-icon name="checkmark-circle-outline"></ion-icon>
+                <p>Account successfully created!</p>
+                <button class="btn btn-light" id="okButton">OK</button>
+            </div>
+        </div>
+
+        <div class="login-form" id="loginFormContainer" style="display:none;">
+            <h2 class="text-center text-white">LOGIN</h2>
+            <form>
+                <div class="form-group">
+                    <label for="loginEmail" class="text-white">Email</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><ion-icon name="person-outline"></ion-icon></span>
+                        </div>
+                        <input type="email" class="form-control" id="loginEmail" placeholder="Enter email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword" class="text-white">Password</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                        </div>
+                        <input type="password" class="form-control" id="loginPassword" placeholder="Enter password">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="text-center text-white mt-3">Don’t have an account? <a href="#" id="registerLink">Register</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="alert-message" id="alertMessage">
+        <p id="alertMessageText"></p>
+        <button class="btn btn-light" id="alertOkButton">OK</button>
+    </div>
+
+    <script src="~/Scripts/script/jquery-3.7.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#registrationForm').on('submit', function (event) {
+                event.preventDefault();
+
+                var isValid = true;
+
+                var lastName = $('#lastName').val();
+                var firstName = $('#firstName').val();
+                var middleName = $('#middleName').val();
+                var contactNumber = $('#contactNumber').val();
+                var email = $('#email').val();
+                var password = $('#password').val();
+
+                // Validate last name
+                if (lastName === '') {
+                    $('#lastNameError').text(' required.');
+                    isValid = false;
+                } else {
+                    $('#lastNameError').text('');
+                }
+
+                // Validate first name
+                if (firstName === '') {
+                    $('#firstNameError').text('required');
+                    isValid = false;
+                } else {
+                    $('#firstNameError').text('');
+                }
+
+                // Validate middle name
+                if (middleName === '') {
+                    $('#middleNameError').text('required.If no middle name, enter N/A.');
+                    isValid = false;
+                }
+                else {
+                    $('#middleNameError').text('');
+                }
+
+                // Validate contact number
+                if (!contactNumber.startsWith("09") || contactNumber.length != 11 || isNaN(contactNumber)) {
+                    $('#contactNumberError').text('Contact number must start with 09 and be 11 digits long.');
+                    isValid = false;
+                } else {
+                    $('#contactNumberError').text('');
+                }
+                
+
+
+
+                // Validate password
+                var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$!%*?&])[A-Za-z\d$!%*?&]{7,}$/;
+                if (!passwordRegex.test(password)) {
+                    $('#passwordError').text('Password must be 7+ characters with uppercase, lowercase, digit, and special character.');
+                    isValid = false;
+                } else {
+                    $('#passwordError').text('');
+                }
+
+                if (isValid) {
+                    $('#successMessage').show();
+                }
+            });
+
+            $('#okButton').on('click', function () {
+                $('#successMessage').hide();
+                $('#registrationFormContainer').hide();
+                $('#loginFormContainer').show();
+            });
+
+            $('#registerLink').on('click', function (event) {
+                event.preventDefault();
+                $('#loginFormContainer').hide();
+                $('#registrationFormContainer').show();
+            });
+
+            $('#loginLink').on('click', function (event) {
+                event.preventDefault();
+                $('#registrationFormContainer').hide();
+                $('#loginFormContainer').show();
+            });
+
+            $('#alertOkButton').on('click', function () {
+                $('#alertMessage').hide();
+            });
+
+            function showAlertMessage(message) {
+                $('#alertMessageText').text(message);
+                $('#alertMessage').show();
+            }
+        });
+    </script>
+</body>
+</html>
